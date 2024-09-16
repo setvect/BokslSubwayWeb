@@ -34,7 +34,20 @@ const StationList: React.FC<StationListProps> = ({ searchTerm, favorites, toggle
       });
     }
 
-    setFilteredStations(filtered);
+    // 정렬 함수 추가
+    const sortStations = (stations: Station[]): Station[] => {
+      return stations.sort((a, b) => {
+        // 먼저 이름으로 정렬
+        const nameComparison = a.name.localeCompare(b.name, "ko");
+        if (nameComparison !== 0) return nameComparison;
+
+        // 이름이 같으면 노선으로 정렬
+        return a.line.localeCompare(b.line, "ko");
+      });
+    };
+
+    // 필터링 후 정렬 적용
+    setFilteredStations(sortStations(filtered));
   }, [searchTerm, favorites, showOnlyFavorites]);
 
   return (
