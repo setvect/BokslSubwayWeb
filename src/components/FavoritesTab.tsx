@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import StationList from "./StationList";
 
 interface FavoritesTabProps {
@@ -7,17 +7,10 @@ interface FavoritesTabProps {
   toggleFavorite: (station: string) => void;
 }
 
-const FavoritesTab: React.FC<FavoritesTabProps> = ({
-  favorites,
-  toggleFavorite,
-}) => {
+const FavoritesTab: React.FC<FavoritesTabProps> = ({ favorites, toggleFavorite }) => {
   return (
-    <Box sx={{ p: 2 }}>
-      <StationList
-        searchTerm=""
-        favorites={favorites}
-        toggleFavorite={toggleFavorite}
-      />
+    <Box sx={{ height: "100%", overflow: "auto" }}>
+      <StationList searchTerm="" favorites={favorites} toggleFavorite={toggleFavorite} />
     </Box>
   );
 };

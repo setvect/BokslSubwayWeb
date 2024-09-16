@@ -3,7 +3,7 @@ import { Box, Link, Typography, Avatar } from "@mui/material";
 
 const HelpTab: React.FC = () => {
   return (
-    <Box sx={{ p: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <Box sx={{ height: "100%", overflow: "auto", p: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
       <Avatar src="/boksl.png" alt="복슬 지하철 로고" sx={{ width: 100, height: 100, mb: 2 }} />
       <Typography variant="h5" sx={{ mb: 1 }}>
         복슬 지하철

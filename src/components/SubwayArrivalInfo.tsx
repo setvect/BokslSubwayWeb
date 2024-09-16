@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Tabs, Tab } from "@mui/material";
+import { Box, Typography, Tabs, Tab, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import StarIcon from "@mui/icons-material/Star";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
@@ -37,56 +37,45 @@ const SubwayArrivalInfo: React.FC = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", maxWidth: 600, margin: "auto" }}>
-      <Typography variant="h6" sx={{ p: 2, pb: 0 }}>
-        수도권 지하철 실시간 도착 안내
-      </Typography>
+    <Paper
+      sx={{
+        width: "100%",
+        maxWidth: 600,
+        margin: "auto",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        bgcolor: "background.paper",
+      }}
+    >
+      <Box sx={{ flexShrink: 0, borderBottom: 1, borderColor: "divider" }}>
+        <Typography variant="h6" sx={{ p: 2, pb: 1 }}>
+          수도권 지하철 실시간 도착 안내
+        </Typography>
 
-      <Tabs
-        value={getCurrentTabIndex()}
-        onChange={handleTabChange}
-        sx={{
-          "& .MuiTabs-flexContainer": {
-            justifyContent: "space-between",
-          },
-        }}
-      >
-        <Tab
-          icon={<SearchIcon />}
-          aria-label="search"
-          sx={{ flexGrow: 1, maxWidth: "none" }}
-        />
-        <Tab
-          icon={<StarIcon />}
-          aria-label="favorites"
-          sx={{ flexGrow: 1, maxWidth: "none" }}
-        />
-        <Tab
-          icon={<HelpOutlineIcon />}
-          aria-label="help"
-          sx={{ flexGrow: 1, maxWidth: "none" }}
-        />
-      </Tabs>
+        <Tabs
+          value={getCurrentTabIndex()}
+          onChange={handleTabChange}
+          sx={{
+            "& .MuiTabs-flexContainer": {
+              justifyContent: "space-between",
+            },
+          }}
+        >
+          <Tab icon={<SearchIcon />} aria-label="search" sx={{ flexGrow: 1, maxWidth: "none" }} />
+          <Tab icon={<StarIcon />} aria-label="favorites" sx={{ flexGrow: 1, maxWidth: "none" }} />
+          <Tab icon={<HelpOutlineIcon />} aria-label="help" sx={{ flexGrow: 1, maxWidth: "none" }} />
+        </Tabs>
+      </Box>
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <SearchTab favorites={favorites} toggleFavorite={toggleFavorite} />
-          }
-        />
-        <Route
-          path="/favorites"
-          element={
-            <FavoritesTab
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-            />
-          }
-        />
-        <Route path="/help" element={<HelpTab />} />
-      </Routes>
-    </Box>
+      <Box sx={{ flexGrow: 1, overflow: "auto" }}>
+        <Routes>
+          <Route path="/" element={<SearchTab favorites={favorites} toggleFavorite={toggleFavorite} />} />
+          <Route path="/favorites" element={<FavoritesTab favorites={favorites} toggleFavorite={toggleFavorite} />} />
+          <Route path="/help" element={<HelpTab />} />
+        </Routes>
+      </Box>
+    </Paper>
   );
 };
 

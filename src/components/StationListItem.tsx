@@ -18,6 +18,11 @@ const StationListItem: React.FC<StationListItemProps> = ({ station, isFavorite, 
           {isFavorite ? <StarIcon color="primary" /> : <StarBorderIcon />}
         </IconButton>
       }
+      sx={{
+        "&:hover": {
+          backgroundColor: "action.hover",
+        },
+      }}
     >
       <ListItemText
         primary={station.name}
