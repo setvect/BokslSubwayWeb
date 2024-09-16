@@ -22,7 +22,11 @@ const StationList: React.FC<StationListProps> = ({ searchTerm, favorites, toggle
       .filter((station) => {
         const stationName = station.name.toLowerCase();
         const search = searchTerm.toLowerCase();
-        return stationName.startsWith(search) || startsWithChosung(stationName, getChosung(search));
+        return (
+          stationName.startsWith(search) ||
+          (search.length === stationName.length && startsWithChosung(stationName, getChosung(search))) ||
+          (search.length < stationName.length && /^[ㄱ-ㅎ]+$/.test(search) && startsWithChosung(stationName, search))
+        );
       });
     setFilteredStations(filtered);
   }, [searchTerm]);
