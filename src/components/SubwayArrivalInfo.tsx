@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 
 const SubwayArrivalInfo: React.FC = () => {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [searchTerm, setSearchTerm] = useState(""); // 새로 추가된 상태
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -72,15 +73,32 @@ const SubwayArrivalInfo: React.FC = () => {
             },
           }}
         >
-          <Tab icon={<SearchIcon />} aria-label="search" sx={{ flexGrow: 1, maxWidth: "none" }} />
-          <Tab icon={<StarIcon />} aria-label="favorites" sx={{ flexGrow: 1, maxWidth: "none" }} />
-          <Tab icon={<HelpOutlineIcon />} aria-label="help" sx={{ flexGrow: 1, maxWidth: "none" }} />
+          <Tab
+            icon={<SearchIcon sx={{ color: getCurrentTabIndex() === 0 ? "yellow" : "inherit" }} />}
+            aria-label="search"
+            sx={{ flexGrow: 1, maxWidth: "none" }}
+          />
+          <Tab
+            icon={<StarIcon sx={{ color: getCurrentTabIndex() === 1 ? "yellow" : "inherit" }} />}
+            aria-label="favorites"
+            sx={{ flexGrow: 1, maxWidth: "none" }}
+          />
+          <Tab
+            icon={<HelpOutlineIcon sx={{ color: getCurrentTabIndex() === 2 ? "yellow" : "inherit" }} />}
+            aria-label="help"
+            sx={{ flexGrow: 1, maxWidth: "none" }}
+          />
         </Tabs>
       </Box>
 
       <Box sx={{ flexGrow: 1, overflow: "auto" }}>
         <Routes>
-          <Route path="/" element={<SearchTab favorites={favorites} toggleFavorite={toggleFavorite} />} />
+          <Route
+            path="/"
+            element={
+              <SearchTab favorites={favorites} toggleFavorite={toggleFavorite} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            }
+          />
           <Route path="/favorites" element={<FavoritesTab favorites={favorites} toggleFavorite={toggleFavorite} />} />
           <Route path="/help" element={<HelpTab />} />
         </Routes>

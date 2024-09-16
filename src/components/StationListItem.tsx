@@ -40,7 +40,7 @@ const StationListItem: React.FC<StationListItemProps> = ({ station, isFavorite, 
     <ListItem
       secondaryAction={
         <IconButton edge="end" onClick={() => toggleFavorite(station.name, station.line)}>
-          {isFavoriteList ? <DeleteIcon /> : isFavorite ? <StarIcon color="primary" /> : <StarBorderIcon />}
+          {isFavoriteList ? <DeleteIcon /> : isFavorite ? <StarIcon sx={{ color: "yellow" }} /> : <StarBorderIcon />}
         </IconButton>
       }
       sx={{

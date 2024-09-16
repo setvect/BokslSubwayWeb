@@ -735,7 +735,7 @@
   { "STATION_CD": "4615", "STATION_NM": "탑석", "LINE_NUM": "의정부경전철", "FR_CODE": "U125" },
   { "STATION_CD": "4701", "STATION_NM": "북한산우이", "LINE_NUM": "우이신설경전철", "FR_CODE": "941" },
   { "STATION_CD": "4702", "STATION_NM": "솔밭공원", "LINE_NUM": "우이신설경전철", "FR_CODE": "942" },
-  { "STATION_CD": "4703", "STATION_NM": "4·19민주묘지", "LINE_NUM": "우이신설경전철", "FR_CODE": "943" },
+  { "STATION_CD": "4703", "STATION_NM": "4.19 민주묘지", "LINE_NUM": "우이신설경전철", "FR_CODE": "943" },
   { "STATION_CD": "4704", "STATION_NM": "가오리", "LINE_NUM": "우이신설경전철", "FR_CODE": "944" },
   { "STATION_CD": "4705", "STATION_NM": "화계", "LINE_NUM": "우이신설경전철", "FR_CODE": "945" },
   { "STATION_CD": "4706", "STATION_NM": "삼양", "LINE_NUM": "우이신설경전철", "FR_CODE": "946" },

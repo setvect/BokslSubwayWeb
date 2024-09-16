@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { Box, TextField } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
+import { Box, IconButton, TextField } from "@mui/material";
+import React from "react";
 import StationList from "./StationList";
 
 interface SearchTabProps {
   favorites: Set<string>;
-  toggleFavorite: (station: string, line: string) => void; // 여기를 수정
+  toggleFavorite: (station: string, line: string) => void;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-
+const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite, searchTerm, setSearchTerm }) => {
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <Box sx={{ p: 2, flexShrink: 0 }}>
@@ -20,8 +20,14 @@ const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite }) => {
           placeholder="역 이름을 입력하세요."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          InputProps={{
-            startAdornment: <SearchIcon color="action" />,
+          slotProps={{
+            input: {
+              endAdornment: searchTerm && (
+                <IconButton aria-label="clear search" onClick={() => setSearchTerm("")} edge="end">
+                  <ClearIcon />
+                </IconButton>
+              ),
+            },
           }}
         />
       </Box>
