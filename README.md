@@ -1,46 +1,77 @@
-# Getting Started with Create React App
+# 복슬지하철
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+실시간 수도권 지하철 도착시간 안내
 
-## Available Scripts
+참고: [앱 버전](https://github.com/setvect/BokslSubway) - flutter로 개발했음
 
-In the project directory, you can run:
+## 1. 주요 기능
 
-### `npm start`
+- 수도권 실시간 지하철 도착안내
+  - 지원 노선: 1호선, 2호선, 3호선, 4호선, 5호선, 6호선, 7호선, 8호선, 9호선, 중앙선, 경의선, 공항철도, 경춘선, 수인분당선, 신분당선, 우이신설경전철, 서해선, 경강선
+- 역 검색(초성검색)
+- 즐겨찾기
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 2. 실행 및 빌드
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 2.1. 초기 셋팅
 
-### `npm test`
+```shell
+$ npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 2.2. 실행 방법
 
-### `npm run build`
+```shell
+$ npm run start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2.3. 빌드 방법
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```shell
+$ npm run build
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 빌드 결과는 /build 폴더에 생성됨
 
-### `npm run eject`
+### 2.4. 빌드 결과 실행
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```shell
+$ npm install -g serve # 최초 1번만 실행
+$ serve -s build
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+실행중에 아래 오류가 발생하면
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+실행중에 아래 오류가 발생하면
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+serve -s build
+serve : 이 시스템에서 스크립트를 실행할 수 없으므로 C:\Users\{사용자}\AppData\Roaming\npm\serve.ps1 파일을 로드할 수 없습니다. 자세한 내용은 about_Execution_Policies(https://go.microsoft.com/fwlink/?LinkID=135170)를 참조하십시오.
+위치 줄:1 문자:1
++ serve -s build
++ ~~~~~
+    + CategoryInfo          : 보안 오류: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+```
 
-## Learn More
+PowerShell을 관리자 모드로 실행
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+serve -s build
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 3. 주요화면
+
+## 4. 관련 정보
+
+### 4.1. 공공 API
+
+- [서울시 지하철 실시간 도착정보](https://data.seoul.go.kr/dataList/OA-12764/F/1/datasetView.do)
+- [서울시 지하철역 정보 검색 (역명)](https://data.seoul.go.kr/dataList/OA-121/S/1/datasetView.do)
+
+### 4.2. 참고한 사이트
+
+- [dartpad](https://dartpad.dev/)
+- [첫 번째 Flutter 앱](https://codelabs.developers.google.com/codelabs/flutter-codelab-first?hl=ko)
+- [Widget catalog](https://docs.flutter.dev/ui/widgets)
