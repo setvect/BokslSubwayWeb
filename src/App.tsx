@@ -1,6 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SubwayArrivalInfo from "./components/SubwayArrivalInfo";
+import ArrivalTimePage from "./components/ArrivalTimePage";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline, GlobalStyles } from "@mui/material";
 
@@ -32,7 +33,10 @@ function App() {
       <CssBaseline />
       <GlobalStyles styles={globalStyles} />
       <Router>
-        <SubwayArrivalInfo />
+        <Routes>
+          <Route path="/*" element={<SubwayArrivalInfo />} />
+          <Route path="/arrival/:line/:stationName" element={<ArrivalTimePage />} />
+        </Routes>
       </Router>
     </ThemeProvider>
   );
