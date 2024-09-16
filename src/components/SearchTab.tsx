@@ -5,7 +5,7 @@ import StationList from "./StationList";
 
 interface SearchTabProps {
   favorites: Set<string>;
-  toggleFavorite: (station: string) => void;
+  toggleFavorite: (station: string, line: string) => void; // 여기를 수정
 }
 
 const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite }) => {
@@ -20,10 +20,8 @@ const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite }) => {
           placeholder="역 이름을 입력하세요."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          slotProps={{
-            input: {
-              startAdornment: <SearchIcon color="action" />,
-            },
+          InputProps={{
+            startAdornment: <SearchIcon color="action" />,
           }}
         />
       </Box>

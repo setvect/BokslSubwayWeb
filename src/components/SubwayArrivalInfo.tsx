@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Tabs, Tab, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import StarIcon from "@mui/icons-material/Star";
@@ -7,25 +7,35 @@ import SearchTab from "./SearchTab";
 import FavoritesTab from "./FavoritesTab";
 import HelpTab from "./HelpTab";
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const SubwayArrivalInfo: React.FC = () => {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() => {
+    const savedFavorites = Cookies.get("favorites");
+    if (savedFavorites) {
+      setFavorites(new Set(JSON.parse(savedFavorites)));
+    }
+  }, []);
+
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     const routes = ["", "favorites", "help"];
     navigate(routes[newValue]);
   };
 
-  const toggleFavorite = (station: string) => {
+  const toggleFavorite = (station: string, line: string) => {
+    const favoriteKey = `${station}|${line}`;
     setFavorites((prev) => {
       const newFavorites = new Set(prev);
-      if (newFavorites.has(station)) {
-        newFavorites.delete(station);
+      if (newFavorites.has(favoriteKey)) {
+        newFavorites.delete(favoriteKey);
       } else {
-        newFavorites.add(station);
+        newFavorites.add(favoriteKey);
       }
+      Cookies.set("favorites", JSON.stringify(Array.from(newFavorites)), { expires: 365 });
       return newFavorites;
     });
   };

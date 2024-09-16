@@ -2,12 +2,14 @@ import React from "react";
 import { ListItem, ListItemText, IconButton } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Station } from "../types/station";
 
 interface StationListItemProps {
   station: Station;
   isFavorite: boolean;
-  toggleFavorite: (station: string) => void;
+  toggleFavorite: (station: string, line: string) => void;
+  isFavoriteList?: boolean;
 }
 
 const lineColors: { [key: string]: string } = {
@@ -31,14 +33,14 @@ const lineColors: { [key: string]: string } = {
   경강선: "#003DA5",
 };
 
-const StationListItem: React.FC<StationListItemProps> = ({ station, isFavorite, toggleFavorite }) => {
+const StationListItem: React.FC<StationListItemProps> = ({ station, isFavorite, toggleFavorite, isFavoriteList = false }) => {
   const lineColor = lineColors[station.line] || "#FFF";
 
   return (
     <ListItem
       secondaryAction={
-        <IconButton edge="end" onClick={() => toggleFavorite(station.name)}>
-          {isFavorite ? <StarIcon color="primary" /> : <StarBorderIcon />}
+        <IconButton edge="end" onClick={() => toggleFavorite(station.name, station.line)}>
+          {isFavoriteList ? <DeleteIcon /> : isFavorite ? <StarIcon color="primary" /> : <StarBorderIcon />}
         </IconButton>
       }
       sx={{
