@@ -24,3 +24,5 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
+
+/http_request/http-client.private.env.json

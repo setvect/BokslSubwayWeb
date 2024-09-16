@@ -69,9 +69,3 @@ serve -s build
 
 - [서울시 지하철 실시간 도착정보](https://data.seoul.go.kr/dataList/OA-12764/F/1/datasetView.do)
 - [서울시 지하철역 정보 검색 (역명)](https://data.seoul.go.kr/dataList/OA-121/S/1/datasetView.do)
-
-### 4.2. 참고한 사이트
-
-- [dartpad](https://dartpad.dev/)
-- [첫 번째 Flutter 앱](https://codelabs.developers.google.com/codelabs/flutter-codelab-first?hl=ko)
-- [Widget catalog](https://docs.flutter.dev/ui/widgets)

@@ -2,18 +2,15 @@ import React from "react";
 import { ListItem, ListItemText, IconButton } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { Station } from "../types/station";
 
 interface StationListItemProps {
-  station: { name: string; line: string };
+  station: Station;
   isFavorite: boolean;
   toggleFavorite: (station: string) => void;
 }
 
-const StationListItem: React.FC<StationListItemProps> = ({
-  station,
-  isFavorite,
-  toggleFavorite,
-}) => {
+const StationListItem: React.FC<StationListItemProps> = ({ station, isFavorite, toggleFavorite }) => {
   return (
     <ListItem
       secondaryAction={
