@@ -32,7 +32,7 @@ const lineColors: { [key: string]: string } = {
 };
 
 const StationListItem: React.FC<StationListItemProps> = ({ station, isFavorite, toggleFavorite }) => {
-  const lineColor = lineColors[station.line] || "#000000";
+  const lineColor = lineColors[station.line] || "#FFF";
 
   return (
     <ListItem

@@ -3,6 +3,7 @@ import { List } from "@mui/material";
 import StationListItem from "./StationListItem";
 import { Station } from "../types/station";
 import { parseStations } from "../utils/stationParser";
+import { getChosung, startsWithChosung } from "../utils/koreanUtils";
 
 interface StationListProps {
   searchTerm: string;
@@ -18,7 +19,11 @@ const StationList: React.FC<StationListProps> = ({ searchTerm, favorites, toggle
     const excludedLines = ["인천", "용인경전철", "의정부경전철", "김포도시철도", "신림선", "GTX-A"];
     const filtered = stations
       .filter((station) => !excludedLines.some((line) => station.line.includes(line)))
-      .filter((station) => station.name.toLowerCase().includes(searchTerm.toLowerCase()));
+      .filter((station) => {
+        const stationName = station.name.toLowerCase();
+        const search = searchTerm.toLowerCase();
+        return stationName.startsWith(search) || startsWithChosung(stationName, getChosung(search));
+      });
     setFilteredStations(filtered);
   }, [searchTerm]);
 
