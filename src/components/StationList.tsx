@@ -15,7 +15,10 @@ const StationList: React.FC<StationListProps> = ({ searchTerm, favorites, toggle
 
   useEffect(() => {
     const stations = parseStations();
-    const filtered = stations.filter((station) => station.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    const excludedLines = ["인천", "용인경전철", "의정부경전철", "김포도시철도", "신림선", "GTX-A"];
+    const filtered = stations
+      .filter((station) => !excludedLines.some((line) => station.line.includes(line)))
+      .filter((station) => station.name.toLowerCase().includes(searchTerm.toLowerCase()));
     setFilteredStations(filtered);
   }, [searchTerm]);
 
