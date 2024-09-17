@@ -13,18 +13,18 @@ interface StationListProps {
 }
 
 const StationList: React.FC<StationListProps> = React.memo(({ searchTerm, favorites, toggleFavorite, showOnlyFavorites = false }) => {
-  const TOP_HEIGHT = showOnlyFavorites ? 110 : 200;
+  const topHeight = showOnlyFavorites ? 110 : 200;
   const [filteredStations, setFilteredStations] = useState<Station[]>([]);
-  const [listHeight, setListHeight] = useState<number>(window.innerHeight - TOP_HEIGHT);
+  const [listHeight, setListHeight] = useState<number>(window.innerHeight - topHeight);
 
   // 창 크기 변경 시 리스트 높이 업데이트
   useEffect(() => {
     const handleResize = () => {
-      setListHeight(window.innerHeight - TOP_HEIGHT);
+      setListHeight(window.innerHeight - topHeight);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [topHeight]);
 
   const stations = useMemo(() => parseStations(), []);
 
