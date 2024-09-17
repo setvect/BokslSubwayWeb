@@ -1,9 +1,9 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { AppBar, IconButton, List, ListItem, ListItemText, Paper, Toolbar, Typography, CircularProgress, Box } from "@mui/material";
+import { AppBar, Box, CircularProgress, IconButton, List, ListItem, Paper, Toolbar, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getLineColor } from "../utils/lineColors";
 import { SubwayArrival } from "../types/subwayArrival";
+import { getLineColor } from "../utils/lineColors";
 import { getLineName } from "../utils/lineMapping";
 
 const ArrivalTimePage: React.FC = () => {
