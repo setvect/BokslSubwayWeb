@@ -2,8 +2,13 @@
 # START_INDEX: 1부터 시작
 # END_INDEX:  1부터 시작
 
-### 실시간 지하철 도착 정보
+### 실시간 지하철 도착 정보 - 1페이지
 GET http://swopenapi.seoul.go.kr/api/subway/sample/json/realtimeStationArrival/1/5/사당
+
+### 실시간 지하철 도착 정보 - 2페이지 
+GET http://swopenapi.seoul.go.kr/api/subway/sample/json/realtimeStationArrival/6/10/사당
+
+
 
 ### 실시간 지하철 도착 정보
 GET http://swopenapi.seoul.go.kr/api/subway/{{apk_key}}/json/realtimeStationArrival/0/10/서울

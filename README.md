@@ -21,8 +21,16 @@ $ npm install
 
 ### 2.2. 실행 방법
 
+- 프론트만 실행
+
 ```shell
 $ npm run start
+```
+
+- 프론트와 netlify 함수 모두 실행
+
+```shell
+$ npm run dev
 ```
 
 ### 2.3. 빌드 방법
@@ -39,8 +47,6 @@ $ npm run build
 $ npm install -g serve # 최초 1번만 실행
 $ serve -s build
 ```
-
-실행중에 아래 오류가 발생하면
 
 실행중에 아래 오류가 발생하면
 
