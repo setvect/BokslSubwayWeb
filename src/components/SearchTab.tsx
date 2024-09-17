@@ -1,7 +1,8 @@
 import ClearIcon from "@mui/icons-material/Clear";
 import { Box, IconButton, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import StationList from "./StationList";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface SearchTabProps {
   favorites: Set<string>;
@@ -11,6 +12,31 @@ interface SearchTabProps {
 }
 
 const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite, searchTerm, setSearchTerm }) => {
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const querySearchTerm = searchParams.get("q");
+    if (querySearchTerm && querySearchTerm !== searchTerm) {
+      setSearchTerm(decodeURIComponent(querySearchTerm));
+    }
+  }, [searchParams, searchTerm, setSearchTerm]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    if (newSearchTerm) {
+      setSearchParams({ q: encodeURIComponent(newSearchTerm) });
+    } else {
+      setSearchParams({});
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
+    setSearchParams({});
+  };
+
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <Box sx={{ p: 2, flexShrink: 0 }}>
@@ -19,7 +45,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite, search
           variant="outlined"
           placeholder="역 이름을 입력하세요."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleSearchChange}
           slotProps={{
             input: {
               endAdornment: searchTerm && (

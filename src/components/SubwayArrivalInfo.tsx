@@ -6,21 +6,31 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import SearchTab from "./SearchTab";
 import FavoritesTab from "./FavoritesTab";
 import HelpTab from "./HelpTab";
-import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
+import { useNavigate, useLocation, Routes, Route, useSearchParams } from "react-router-dom";
 import Cookies from "js-cookie";
 
-const SubwayArrivalInfo: React.FC = () => {
+interface SubwayArrivalInfoProps {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const SubwayArrivalInfo: React.FC<SubwayArrivalInfoProps> = ({ searchTerm, setSearchTerm }) => {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
-  const [searchTerm, setSearchTerm] = useState(""); // 새로 추가된 상태
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const savedFavorites = Cookies.get("favorites");
     if (savedFavorites) {
       setFavorites(new Set(JSON.parse(savedFavorites)));
     }
-  }, []);
+
+    const querySearchTerm = searchParams.get("q");
+    if (querySearchTerm) {
+      setSearchTerm(decodeURIComponent(querySearchTerm));
+    }
+  }, [searchParams, setSearchTerm]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     const routes = ["", "favorites", "help"];
@@ -94,7 +104,7 @@ const SubwayArrivalInfo: React.FC = () => {
       <Box sx={{ flexGrow: 1, overflow: "auto" }}>
         <Routes>
           <Route
-            path="/"
+            path="/*"
             element={
               <SearchTab favorites={favorites} toggleFavorite={toggleFavorite} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             }

@@ -24,7 +24,7 @@ const ArrivalTimePage: React.FC = () => {
         const filteredArrivals = data.realtimeArrivalList.filter((arrival: SubwayArrival) => getLineName(arrival.subwayId) === line);
         setArrivalTimes(filteredArrivals);
       } catch (err) {
-        setError("Error fetching arrival times");
+        setError("도착 정보가 없어요.");
         console.error(err);
       } finally {
         setLoading(false);
