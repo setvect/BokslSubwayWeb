@@ -49,7 +49,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite }) => {
           slotProps={{
             input: {
               endAdornment: searchTerm && (
-                <IconButton aria-label="clear search" onClick={() => setSearchTerm("")} edge="end">
+                <IconButton aria-label="clear search" onClick={handleClearSearch} edge="end">
                   <ClearIcon />
                 </IconButton>
               ),
