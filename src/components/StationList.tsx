@@ -12,9 +12,8 @@ interface StationListProps {
   showOnlyFavorites?: boolean;
 }
 
-const TOP_HEIGHT = 200;
-
 const StationList: React.FC<StationListProps> = React.memo(({ searchTerm, favorites, toggleFavorite, showOnlyFavorites = false }) => {
+  const TOP_HEIGHT = showOnlyFavorites ? 110 : 200;
   const [filteredStations, setFilteredStations] = useState<Station[]>([]);
   const [listHeight, setListHeight] = useState<number>(window.innerHeight - TOP_HEIGHT);
 
