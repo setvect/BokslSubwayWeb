@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { List } from "@mui/material";
+import { FixedSizeList as VirtualList, ListChildComponentProps } from "react-window";
 import StationListItem from "./StationListItem";
 import { Station } from "../types/station";
 import { parseStations } from "../utils/stationParser";
@@ -12,8 +12,20 @@ interface StationListProps {
   showOnlyFavorites?: boolean;
 }
 
+const TOP_HEIGHT = 200;
+
 const StationList: React.FC<StationListProps> = React.memo(({ searchTerm, favorites, toggleFavorite, showOnlyFavorites = false }) => {
   const [filteredStations, setFilteredStations] = useState<Station[]>([]);
+  const [listHeight, setListHeight] = useState<number>(window.innerHeight - TOP_HEIGHT);
+
+  // 창 크기 변경 시 리스트 높이 업데이트
+  useEffect(() => {
+    const handleResize = () => {
+      setListHeight(window.innerHeight - TOP_HEIGHT);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const stations = useMemo(() => parseStations(), []);
 
@@ -34,7 +46,6 @@ const StationList: React.FC<StationListProps> = React.memo(({ searchTerm, favori
       });
     }
 
-    // 정렬 함수
     const sortStations = (stations: Station[]): Station[] => {
       return stations.sort((a, b) => {
         const nameComparison = a.name.localeCompare(b.name, "ko");
@@ -47,17 +58,24 @@ const StationList: React.FC<StationListProps> = React.memo(({ searchTerm, favori
   }, [searchTerm, favorites, showOnlyFavorites, stations]);
 
   return (
-    <List aria-label="역 목록">
-      {filteredStations.map((station, index) => (
-        <StationListItem
-          key={`${station.name}|${station.line}`}
-          station={station}
-          isFavorite={favorites.has(`${station.name}|${station.line}`)}
-          toggleFavorite={toggleFavorite}
-          isFavoriteList={showOnlyFavorites}
-        />
-      ))}
-    </List>
+    <VirtualList
+      height={listHeight} // 동적 높이 적용
+      itemCount={filteredStations.length}
+      itemSize={80}
+      width="100%"
+    >
+      {({ index, style }: ListChildComponentProps) => (
+        <div style={style}>
+          <StationListItem
+            key={`${filteredStations[index].name}|${filteredStations[index].line}`}
+            station={filteredStations[index]}
+            isFavorite={favorites.has(`${filteredStations[index].name}|${filteredStations[index].line}`)}
+            toggleFavorite={toggleFavorite}
+            isFavoriteList={showOnlyFavorites}
+          />
+        </div>
+      )}
+    </VirtualList>
   );
 });
 
