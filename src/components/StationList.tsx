@@ -47,7 +47,7 @@ const StationList: React.FC<StationListProps> = React.memo(({ searchTerm, favori
   }, [searchTerm, favorites, showOnlyFavorites, stations]);
 
   return (
-    <List>
+    <List aria-label="역 목록">
       {filteredStations.map((station, index) => (
         <StationListItem
           key={`${station.name}|${station.line}`}

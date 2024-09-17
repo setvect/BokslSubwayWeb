@@ -33,7 +33,7 @@ const StationListItem: React.FC<StationListItemProps> = React.memo(({ station, i
   return (
     <ListItem
       secondaryAction={
-        <IconButton edge="end" onClick={handleToggleFavorite}>
+        <IconButton edge="end" onClick={handleToggleFavorite} aria-label={isFavorite ? "즐겨찾기에서 제거" : "즐겨찾기에 추가"}>
           {isFavoriteList ? <DeleteIcon /> : isFavorite ? <StarIcon sx={{ color: "yellow" }} /> : <StarBorderIcon />}
         </IconButton>
       }
@@ -42,6 +42,8 @@ const StationListItem: React.FC<StationListItemProps> = React.memo(({ station, i
           backgroundColor: "action.hover",
         },
       }}
+      role="button"
+      aria-label={`${station.name} ${station.line} 도착 정보 보기`}
     >
       <ListItemText
         primary={station.name}

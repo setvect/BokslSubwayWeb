@@ -41,7 +41,7 @@ const SearchTab: React.FC<SearchTabProps> = React.memo(({ favorites, toggleFavor
   }, [setSearchTerm, setSearchParams]);
 
   return (
-    <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }} role="search">
       <Box sx={{ p: 2, flexShrink: 0 }}>
         <TextField
           fullWidth
@@ -51,8 +51,9 @@ const SearchTab: React.FC<SearchTabProps> = React.memo(({ favorites, toggleFavor
           onChange={handleSearchChange}
           slotProps={{
             input: {
+              "aria-label": "역 이름 검색",
               endAdornment: searchTerm && (
-                <IconButton aria-label="clear search" onClick={handleClearSearch} edge="end">
+                <IconButton aria-label="검색어 지우기" onClick={handleClearSearch} edge="end">
                   <ClearIcon />
                 </IconButton>
               ),
@@ -60,7 +61,7 @@ const SearchTab: React.FC<SearchTabProps> = React.memo(({ favorites, toggleFavor
           }}
         />
       </Box>
-      <Box sx={{ flexGrow: 1, overflow: "auto" }}>
+      <Box sx={{ flexGrow: 1, overflow: "auto" }} role="region" aria-label="검색 결과">
         <StationList searchTerm={searchTerm} favorites={favorites} toggleFavorite={toggleFavorite} />
       </Box>
     </Box>
