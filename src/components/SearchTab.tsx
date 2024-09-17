@@ -1,8 +1,9 @@
 import React, { useEffect, useCallback } from "react";
+import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Box, IconButton, TextField } from "@mui/material";
+import { Box, IconButton, TextField, InputAdornment } from "@mui/material";
 import StationList from "./StationList";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useSearch } from "../contexts/SearchContext";
 
 interface SearchTabProps {
@@ -11,7 +12,6 @@ interface SearchTabProps {
 }
 
 const SearchTab: React.FC<SearchTabProps> = React.memo(({ favorites, toggleFavorite }) => {
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm, setSearchTerm } = useSearch();
 
@@ -51,11 +51,17 @@ const SearchTab: React.FC<SearchTabProps> = React.memo(({ favorites, toggleFavor
           onChange={handleSearchChange}
           slotProps={{
             input: {
-              "aria-label": "역 이름 검색",
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
               endAdornment: searchTerm && (
-                <IconButton aria-label="검색어 지우기" onClick={handleClearSearch} edge="end">
-                  <ClearIcon />
-                </IconButton>
+                <InputAdornment position="end">
+                  <IconButton aria-label="검색어 지우기" onClick={handleClearSearch} edge="end">
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>
               ),
             },
           }}

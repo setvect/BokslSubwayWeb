@@ -17,6 +17,7 @@ export const subwayIdToLine: { [key: string]: string } = {
   "1092": "우이신설선",
   "1093": "서해선",
   "1081": "경강선",
+  "1094": "신림선",
 };
 
 export const getLineName = (subwayId: string): string => {

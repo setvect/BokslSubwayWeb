@@ -17,6 +17,7 @@ export const lineColors: { [key: string]: string } = {
   우이신설선: "#B0CE18",
   서해선: "#8CADCB",
   경강선: "#003DA5",
+  신림선: "#6789CA",
 };
 
 export const getLineColor = (line: string): string => {

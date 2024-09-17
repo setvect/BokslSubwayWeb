@@ -69,6 +69,12 @@ serve -s build
 
 ## 3. 주요화면
 
+![검색](./docs/img_1.png)
+
+![도착안내](./docs/img_2.png)
+
+![즐겨찾기](./docs/img_3.png)
+
 ## 4. 관련 정보
 
 ### 4.1. 공공 API

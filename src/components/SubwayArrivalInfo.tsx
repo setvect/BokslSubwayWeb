@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Paper } from "@mui/material";
+import { Paper, Box } from "@mui/material";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useSearch } from "../contexts/SearchContext";
@@ -56,6 +56,7 @@ const SubwayArrivalInfo: React.FC = React.memo(() => {
 
   return (
     <Paper
+      elevation={3}
       sx={{
         width: "100%",
         maxWidth: 600,
@@ -64,13 +65,18 @@ const SubwayArrivalInfo: React.FC = React.memo(() => {
         display: "flex",
         flexDirection: "column",
         bgcolor: "background.paper",
+        overflow: "hidden",
       }}
       role="main"
       aria-label="지하철 도착 정보"
     >
-      <Header />
-      <TabNavigation currentTabIndex={getCurrentTabIndex()} handleTabChange={handleTabChange} />
-      <TabContent favorites={favorites} toggleFavorite={toggleFavorite} />
+      <Box sx={{ flexShrink: 0 }}>
+        <Header />
+        <TabNavigation currentTabIndex={getCurrentTabIndex()} handleTabChange={handleTabChange} />
+      </Box>
+      <Box sx={{ flexGrow: 1, overflow: "auto" }}>
+        <TabContent favorites={favorites} toggleFavorite={toggleFavorite} />
+      </Box>
     </Paper>
   );
 });
