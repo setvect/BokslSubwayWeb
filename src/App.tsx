@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import SubwayArrivalInfo from "./components/SubwayArrivalInfo";
-import ArrivalTimePage from "./components/ArrivalTimePage";
 import { ThemeProvider } from "@emotion/react";
-import { createTheme, CssBaseline, GlobalStyles } from "@mui/material";
+import { createTheme, CssBaseline, GlobalStyles, CircularProgress } from "@mui/material";
 import { SearchProvider } from "./contexts/SearchContext";
+
+const SubwayArrivalInfo = lazy(() => import("./components/SubwayArrivalInfo"));
+const ArrivalTimePage = lazy(() => import("./components/ArrivalTimePage"));
 
 const darkTheme = createTheme({
   palette: {
@@ -35,13 +36,17 @@ function App() {
       <GlobalStyles styles={globalStyles} />
       <SearchProvider>
         <Router>
-          <Routes>
-            <Route path="/" element={<Navigate to="/search" replace />} />
-            <Route path="/search/*" element={<SubwayArrivalInfo />} />
-            <Route path="/favorites/*" element={<SubwayArrivalInfo />} />
-            <Route path="/help/*" element={<SubwayArrivalInfo />} />
-            <Route path="/arrival/:line/:stationName" element={<ArrivalTimePage />} />
-          </Routes>
+          <Suspense
+            fallback={<CircularProgress sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />}
+          >
+            <Routes>
+              <Route path="/" element={<Navigate to="/search" replace />} />
+              <Route path="/search/*" element={<SubwayArrivalInfo />} />
+              <Route path="/favorites/*" element={<SubwayArrivalInfo />} />
+              <Route path="/help/*" element={<SubwayArrivalInfo />} />
+              <Route path="/arrival/:line/:stationName" element={<ArrivalTimePage />} />
+            </Routes>
+          </Suspense>
         </Router>
       </SearchProvider>
     </ThemeProvider>

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Box, Typography, Tabs, Tab, Paper } from "@mui/material";
+import React, { useState, useEffect, lazy, Suspense } from "react";
+import { Box, Typography, Tabs, Tab, Paper, CircularProgress } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import StarIcon from "@mui/icons-material/Star";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import SearchTab from "./SearchTab";
-import FavoritesTab from "./FavoritesTab";
-import HelpTab from "./HelpTab";
 import { useNavigate, useLocation, Routes, Route, useSearchParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useSearch } from "../contexts/SearchContext";
+
+const SearchTab = lazy(() => import("./SearchTab"));
+const FavoritesTab = lazy(() => import("./FavoritesTab"));
+const HelpTab = lazy(() => import("./HelpTab"));
 
 const SubwayArrivalInfo: React.FC = () => {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
@@ -99,11 +100,15 @@ const SubwayArrivalInfo: React.FC = () => {
       </Box>
 
       <Box sx={{ flexGrow: 1, overflow: "auto" }}>
-        <Routes>
-          <Route path="/*" element={<SearchTab favorites={favorites} toggleFavorite={toggleFavorite} />} />
-          <Route path="/favorites" element={<FavoritesTab favorites={favorites} toggleFavorite={toggleFavorite} />} />
-          <Route path="/help" element={<HelpTab />} />
-        </Routes>
+        <Suspense
+          fallback={<CircularProgress sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />}
+        >
+          <Routes>
+            <Route path="/*" element={<SearchTab favorites={favorites} toggleFavorite={toggleFavorite} />} />
+            <Route path="/favorites" element={<FavoritesTab favorites={favorites} toggleFavorite={toggleFavorite} />} />
+            <Route path="/help" element={<HelpTab />} />
+          </Routes>
+        </Suspense>
       </Box>
     </Paper>
   );
