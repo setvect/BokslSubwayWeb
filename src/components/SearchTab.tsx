@@ -3,17 +3,17 @@ import { Box, IconButton, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import StationList from "./StationList";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearch } from "../contexts/SearchContext";
 
 interface SearchTabProps {
   favorites: Set<string>;
   toggleFavorite: (station: string, line: string) => void;
-  searchTerm: string;
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite, searchTerm, setSearchTerm }) => {
+const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite }) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { searchTerm, setSearchTerm } = useSearch();
 
   useEffect(() => {
     const querySearchTerm = searchParams.get("q");

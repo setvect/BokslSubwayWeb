@@ -8,17 +8,14 @@ import FavoritesTab from "./FavoritesTab";
 import HelpTab from "./HelpTab";
 import { useNavigate, useLocation, Routes, Route, useSearchParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useSearch } from "../contexts/SearchContext";
 
-interface SubwayArrivalInfoProps {
-  searchTerm: string;
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const SubwayArrivalInfo: React.FC<SubwayArrivalInfoProps> = ({ searchTerm, setSearchTerm }) => {
+const SubwayArrivalInfo: React.FC = () => {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+  const { searchTerm, setSearchTerm } = useSearch();
 
   useEffect(() => {
     const savedFavorites = Cookies.get("favorites");
@@ -103,12 +100,7 @@ const SubwayArrivalInfo: React.FC<SubwayArrivalInfoProps> = ({ searchTerm, setSe
 
       <Box sx={{ flexGrow: 1, overflow: "auto" }}>
         <Routes>
-          <Route
-            path="/*"
-            element={
-              <SearchTab favorites={favorites} toggleFavorite={toggleFavorite} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-            }
-          />
+          <Route path="/*" element={<SearchTab favorites={favorites} toggleFavorite={toggleFavorite} />} />
           <Route path="/favorites" element={<FavoritesTab favorites={favorites} toggleFavorite={toggleFavorite} />} />
           <Route path="/help" element={<HelpTab />} />
         </Routes>

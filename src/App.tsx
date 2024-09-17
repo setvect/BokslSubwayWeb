@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import SubwayArrivalInfo from "./components/SubwayArrivalInfo";
 import ArrivalTimePage from "./components/ArrivalTimePage";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline, GlobalStyles } from "@mui/material";
+import { SearchProvider } from "./contexts/SearchContext";
 
 const darkTheme = createTheme({
   palette: {
@@ -28,21 +29,21 @@ const globalStyles = {
 };
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState("");
-
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <GlobalStyles styles={globalStyles} />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Navigate to={`/search${searchTerm ? `?q=${encodeURIComponent(searchTerm)}` : ""}`} replace />} />
-          <Route path="/search/*" element={<SubwayArrivalInfo searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
-          <Route path="/favorites/*" element={<SubwayArrivalInfo searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
-          <Route path="/help/*" element={<SubwayArrivalInfo searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
-          <Route path="/arrival/:line/:stationName" element={<ArrivalTimePage />} />
-        </Routes>
-      </Router>
+      <SearchProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Navigate to="/search" replace />} />
+            <Route path="/search/*" element={<SubwayArrivalInfo />} />
+            <Route path="/favorites/*" element={<SubwayArrivalInfo />} />
+            <Route path="/help/*" element={<SubwayArrivalInfo />} />
+            <Route path="/arrival/:line/:stationName" element={<ArrivalTimePage />} />
+          </Routes>
+        </Router>
+      </SearchProvider>
     </ThemeProvider>
   );
 }
