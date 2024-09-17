@@ -17,8 +17,7 @@ const StationList: React.FC<StationListProps> = ({ searchTerm, favorites, toggle
 
   useEffect(() => {
     const stations = parseStations();
-    const excludedLines = ["인천", "용인경전철", "의정부경전철", "김포도시철도", "신림선", "GTX-A"];
-    let filtered = stations.filter((station) => !excludedLines.some((line) => station.line.includes(line)));
+    let filtered = stations;
 
     if (showOnlyFavorites) {
       filtered = filtered.filter((station) => favorites.has(`${station.name}|${station.line}`));

@@ -14,7 +14,7 @@ export const lineColors: { [key: string]: string } = {
   경춘선: "#0D3692",
   수인분당선: "#F5A200",
   신분당선: "#BB1833",
-  우이신설경전철: "#B0CE18",
+  우이신설선: "#B0CE18",
   서해선: "#8CADCB",
   경강선: "#003DA5",
 };
