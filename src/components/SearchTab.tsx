@@ -1,6 +1,6 @@
+import React, { useEffect, useCallback } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Box, IconButton, TextField } from "@mui/material";
-import React, { useEffect } from "react";
 import StationList from "./StationList";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSearch } from "../contexts/SearchContext";
@@ -10,7 +10,7 @@ interface SearchTabProps {
   toggleFavorite: (station: string, line: string) => void;
 }
 
-const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite }) => {
+const SearchTab: React.FC<SearchTabProps> = React.memo(({ favorites, toggleFavorite }) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { searchTerm, setSearchTerm } = useSearch();
@@ -22,20 +22,23 @@ const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite }) => {
     }
   }, [searchParams, searchTerm, setSearchTerm]);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newSearchTerm = e.target.value;
-    setSearchTerm(newSearchTerm);
-    if (newSearchTerm) {
-      setSearchParams({ q: encodeURIComponent(newSearchTerm) });
-    } else {
-      setSearchParams({});
-    }
-  };
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newSearchTerm = e.target.value;
+      setSearchTerm(newSearchTerm);
+      if (newSearchTerm) {
+        setSearchParams({ q: encodeURIComponent(newSearchTerm) });
+      } else {
+        setSearchParams({});
+      }
+    },
+    [setSearchTerm, setSearchParams]
+  );
 
-  const handleClearSearch = () => {
+  const handleClearSearch = useCallback(() => {
     setSearchTerm("");
     setSearchParams({});
-  };
+  }, [setSearchTerm, setSearchParams]);
 
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -62,6 +65,6 @@ const SearchTab: React.FC<SearchTabProps> = ({ favorites, toggleFavorite }) => {
       </Box>
     </Box>
   );
-};
+});
 
 export default SearchTab;

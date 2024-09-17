@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { List } from "@mui/material";
 import StationListItem from "./StationListItem";
 import { Station } from "../types/station";
@@ -12,11 +12,12 @@ interface StationListProps {
   showOnlyFavorites?: boolean;
 }
 
-const StationList: React.FC<StationListProps> = ({ searchTerm, favorites, toggleFavorite, showOnlyFavorites = false }) => {
+const StationList: React.FC<StationListProps> = React.memo(({ searchTerm, favorites, toggleFavorite, showOnlyFavorites = false }) => {
   const [filteredStations, setFilteredStations] = useState<Station[]>([]);
 
+  const stations = useMemo(() => parseStations(), []);
+
   useEffect(() => {
-    const stations = parseStations();
     let filtered = stations;
 
     if (showOnlyFavorites) {
@@ -33,27 +34,23 @@ const StationList: React.FC<StationListProps> = ({ searchTerm, favorites, toggle
       });
     }
 
-    // 정렬 함수 추가
+    // 정렬 함수
     const sortStations = (stations: Station[]): Station[] => {
       return stations.sort((a, b) => {
-        // 먼저 이름으로 정렬
         const nameComparison = a.name.localeCompare(b.name, "ko");
         if (nameComparison !== 0) return nameComparison;
-
-        // 이름이 같으면 노선으로 정렬
         return a.line.localeCompare(b.line, "ko");
       });
     };
 
-    // 필터링 후 정렬 적용
     setFilteredStations(sortStations(filtered));
-  }, [searchTerm, favorites, showOnlyFavorites]);
+  }, [searchTerm, favorites, showOnlyFavorites, stations]);
 
   return (
     <List>
       {filteredStations.map((station, index) => (
         <StationListItem
-          key={index}
+          key={`${station.name}|${station.line}`}
           station={station}
           isFavorite={favorites.has(`${station.name}|${station.line}`)}
           toggleFavorite={toggleFavorite}
@@ -62,6 +59,6 @@ const StationList: React.FC<StationListProps> = ({ searchTerm, favorites, toggle
       ))}
     </List>
   );
-};
+});
 
 export default StationList;

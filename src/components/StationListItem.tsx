@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ListItem, ListItemText, IconButton } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
@@ -14,18 +14,26 @@ interface StationListItemProps {
   isFavoriteList?: boolean;
 }
 
-const StationListItem: React.FC<StationListItemProps> = ({ station, isFavorite, toggleFavorite, isFavoriteList = false }) => {
+const StationListItem: React.FC<StationListItemProps> = React.memo(({ station, isFavorite, toggleFavorite, isFavoriteList = false }) => {
   const lineColor = getLineColor(station.line);
   const navigate = useNavigate();
 
-  const handleStationClick = () => {
+  const handleStationClick = useCallback(() => {
     navigate(`/arrival/${encodeURIComponent(station.line)}/${encodeURIComponent(station.name)}`);
-  };
+  }, [navigate, station.line, station.name]);
+
+  const handleToggleFavorite = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      toggleFavorite(station.name, station.line);
+    },
+    [toggleFavorite, station.name, station.line]
+  );
 
   return (
     <ListItem
       secondaryAction={
-        <IconButton edge="end" onClick={() => toggleFavorite(station.name, station.line)}>
+        <IconButton edge="end" onClick={handleToggleFavorite}>
           {isFavoriteList ? <DeleteIcon /> : isFavorite ? <StarIcon sx={{ color: "yellow" }} /> : <StarBorderIcon />}
         </IconButton>
       }
@@ -49,6 +57,6 @@ const StationListItem: React.FC<StationListItemProps> = ({ station, isFavorite, 
       />
     </ListItem>
   );
-};
+});
 
 export default StationListItem;

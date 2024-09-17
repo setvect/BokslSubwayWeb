@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, useEffect, lazy, Suspense, useCallback } from "react";
 import { Box, Typography, Tabs, Tab, Paper, CircularProgress } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import StarIcon from "@mui/icons-material/Star";
@@ -11,7 +11,7 @@ const SearchTab = lazy(() => import("./SearchTab"));
 const FavoritesTab = lazy(() => import("./FavoritesTab"));
 const HelpTab = lazy(() => import("./HelpTab"));
 
-const SubwayArrivalInfo: React.FC = () => {
+const SubwayArrivalInfo: React.FC = React.memo(() => {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,14 +30,17 @@ const SubwayArrivalInfo: React.FC = () => {
     }
   }, [searchParams, setSearchTerm]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    const routes = ["", "favorites", "help"];
-    navigate(routes[newValue]);
-  };
+  const handleTabChange = useCallback(
+    (event: React.SyntheticEvent, newValue: number) => {
+      const routes = ["", "favorites", "help"];
+      navigate(routes[newValue]);
+    },
+    [navigate]
+  );
 
-  const toggleFavorite = (station: string, line: string) => {
-    const favoriteKey = `${station}|${line}`;
+  const toggleFavorite = useCallback((station: string, line: string) => {
     setFavorites((prev) => {
+      const favoriteKey = `${station}|${line}`;
       const newFavorites = new Set(prev);
       if (newFavorites.has(favoriteKey)) {
         newFavorites.delete(favoriteKey);
@@ -47,13 +50,13 @@ const SubwayArrivalInfo: React.FC = () => {
       Cookies.set("favorites", JSON.stringify(Array.from(newFavorites)), { expires: 365 });
       return newFavorites;
     });
-  };
+  }, []);
 
-  const getCurrentTabIndex = () => {
+  const getCurrentTabIndex = useCallback(() => {
     if (location.pathname.includes("favorites")) return 1;
     if (location.pathname.includes("help")) return 2;
     return 0;
-  };
+  }, [location.pathname]);
 
   return (
     <Paper
@@ -112,6 +115,6 @@ const SubwayArrivalInfo: React.FC = () => {
       </Box>
     </Paper>
   );
-};
+});
 
 export default SubwayArrivalInfo;
