@@ -43,9 +43,7 @@ function App() {
             >
               <Routes>
                 <Route path="/" element={<Navigate to="/search" replace />} />
-                <Route path="/search/*" element={<SubwayArrivalInfo />} />
-                <Route path="/favorites/*" element={<SubwayArrivalInfo />} />
-                <Route path="/help/*" element={<SubwayArrivalInfo />} />
+                <Route path="/*" element={<SubwayArrivalInfo />} />
                 <Route path="/arrival/:line/:stationName" element={<ArrivalTimePage />} />
               </Routes>
             </Suspense>

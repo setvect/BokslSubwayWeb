@@ -28,7 +28,7 @@ const SubwayArrivalInfo: React.FC = React.memo(() => {
 
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {
-      const routes = ["", "favorites", "help"];
+      const routes = ["/search", "/favorites", "/help"];
       navigate(routes[newValue]);
     },
     [navigate]
@@ -49,8 +49,8 @@ const SubwayArrivalInfo: React.FC = React.memo(() => {
   }, []);
 
   const getCurrentTabIndex = useCallback(() => {
-    if (location.pathname.includes("favorites")) return 1;
-    if (location.pathname.includes("help")) return 2;
+    if (location.pathname.startsWith("/favorites")) return 1;
+    if (location.pathname.startsWith("/help")) return 2;
     return 0;
   }, [location.pathname]);
 
