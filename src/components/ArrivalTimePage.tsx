@@ -1,6 +1,7 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { AppBar, Box, CircularProgress, IconButton, List, ListItem, Paper, Toolbar, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { AppBar, Box, CircularProgress, IconButton, List, ListItem, Paper, Toolbar, Typography, Button } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SubwayArrival } from "../types/subwayArrival";
 import { getLineColor } from "../utils/lineColors";
@@ -13,26 +14,31 @@ const ArrivalTimePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchArrivalTimes = async () => {
-      try {
-        const response = await fetch(`/.netlify/functions/subway?station=${encodeURIComponent(stationName || "")}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch arrival times");
-        }
-        const data = await response.json();
-        const filteredArrivals = data.realtimeArrivalList.filter((arrival: SubwayArrival) => getLineName(arrival.subwayId) === line);
-        setArrivalTimes(filteredArrivals);
-      } catch (err) {
-        setError("도착 정보가 없어요.");
-        console.error(err);
-      } finally {
-        setLoading(false);
+  const fetchArrivalTimes = useCallback(async () => {
+    try {
+      const response = await fetch(`/.netlify/functions/subway?station=${encodeURIComponent(stationName || "")}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch arrival times");
       }
-    };
-
-    fetchArrivalTimes();
+      const data = await response.json();
+      const filteredArrivals = data.realtimeArrivalList.filter((arrival: SubwayArrival) => getLineName(arrival.subwayId) === line);
+      setArrivalTimes(filteredArrivals);
+    } catch (err) {
+      setError("도착 정보가 없어요.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   }, [stationName, line]);
+
+  const handleRefresh = useCallback(() => {
+    setLoading(true);
+    fetchArrivalTimes();
+  }, [fetchArrivalTimes]);
+
+  useEffect(() => {
+    fetchArrivalTimes();
+  }, [fetchArrivalTimes]);
 
   return (
     <Paper
@@ -69,7 +75,7 @@ const ArrivalTimePage: React.FC = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
+      <Box sx={{ flexGrow: 1, overflow: "auto", p: 2, display: "flex", flexDirection: "column" }}>
         {loading ? (
           <CircularProgress sx={{ display: "block", margin: "auto" }} />
         ) : error ? (
@@ -77,18 +83,23 @@ const ArrivalTimePage: React.FC = () => {
             {error}
           </Typography>
         ) : (
-          <List>
-            {arrivalTimes.map((time, index) => (
-              <ListItem key={index} divider sx={{ flexDirection: "column", alignItems: "flex-start" }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                  {time.trainLineNm}
-                </Typography>
-                <Typography variant="body2" sx={{ mt: 1 }}>
-                  {time.arvlMsg2}
-                </Typography>
-              </ListItem>
-            ))}
-          </List>
+          <>
+            <List sx={{ flexGrow: 1 }}>
+              {arrivalTimes.map((time, index) => (
+                <ListItem key={index} divider sx={{ flexDirection: "column", alignItems: "flex-start" }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                    {time.trainLineNm}
+                  </Typography>
+                  <Typography variant="body2" sx={{ mt: 1 }}>
+                    {time.arvlMsg2}
+                  </Typography>
+                </ListItem>
+              ))}
+            </List>
+            <Button variant="contained" startIcon={<RefreshIcon />} onClick={handleRefresh} sx={{ mt: 2, alignSelf: "center" }}>
+              새로고침
+            </Button>
+          </>
         )}
       </Box>
     </Paper>
